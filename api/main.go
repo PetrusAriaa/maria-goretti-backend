@@ -7,10 +7,12 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/PetrusAriaa/web-margot-backend/api/controller"
-	"github.com/PetrusAriaa/web-margot-backend/api/db"
-	"github.com/PetrusAriaa/web-margot-backend/api/service"
+	"github.com/PetrusAriaa/web-margot-backend/lib/controller"
+	"github.com/PetrusAriaa/web-margot-backend/lib/db"
+	"github.com/PetrusAriaa/web-margot-backend/lib/service"
 )
+
+var s *http.Server
 
 func main() {
 	err := godotenv.Load(".env.development")
@@ -28,7 +30,7 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	s := http.Server{
+	s = &http.Server{
 		Addr:    "0.0.0.0:8080",
 		Handler: mux,
 	}
@@ -40,4 +42,8 @@ func main() {
 		client.CloudStorageClient.Close()
 		panic(err.Error())
 	}
+}
+
+func StartServer(w http.ResponseWriter, r *http.Request) {
+	s.ListenAndServe()
 }

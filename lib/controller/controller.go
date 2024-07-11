@@ -1,6 +1,6 @@
 package controller
 
-import "github.com/PetrusAriaa/web-margot-backend/api/service"
+import "github.com/PetrusAriaa/web-margot-backend/lib/service"
 
 type controllerData struct {
 	service *service.Service

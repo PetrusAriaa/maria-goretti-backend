@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/PetrusAriaa/web-margot-backend/api/db"
+	"github.com/PetrusAriaa/web-margot-backend/lib/db"
 )
 
 type Repository struct {
