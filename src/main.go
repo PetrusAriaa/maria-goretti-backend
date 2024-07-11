@@ -32,7 +32,7 @@ func main() {
 		Addr:    "0.0.0.0:8080",
 		Handler: mux,
 	}
-	mux.HandleFunc("/assets/images", c.GetImageList)
+	mux.HandleFunc("/api/v1/images", c.GetImageList)
 	mux.HandleFunc("/assets/images/{id}", c.GetImage)
 
 	log.Default().Printf("Server started on http://0.0.0.0:8080")
