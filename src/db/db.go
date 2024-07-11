@@ -9,7 +9,8 @@ import (
 )
 
 type DBConnections struct {
-	CloudStorageClient *storage.BucketHandle
+	CloudStorageClient *storage.Client
+	StorageBucket      *storage.BucketHandle
 }
 
 func NewDBConnections(ctx context.Context) *DBConnections {
@@ -20,6 +21,7 @@ func NewDBConnections(ctx context.Context) *DBConnections {
 	}
 	bkt := s.Bucket(os.Getenv("GCLOUD_BUCKET"))
 	return &DBConnections{
-		CloudStorageClient: bkt,
+		CloudStorageClient: s,
+		StorageBucket:      bkt,
 	}
 }

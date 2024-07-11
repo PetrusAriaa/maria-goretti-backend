@@ -9,7 +9,7 @@ import (
 )
 
 func (r *Repository) GetImageList() []string {
-	obj := r.db.CloudStorageClient.Objects(r.ctx, nil)
+	obj := r.db.StorageBucket.Objects(r.ctx, nil)
 
 	var blobList []string
 
@@ -27,7 +27,7 @@ func (r *Repository) GetImageList() []string {
 }
 
 func (r *Repository) GetImage(img string) ([]byte, string) {
-	obj := r.db.CloudStorageClient.Object(img)
+	obj := r.db.StorageBucket.Object(img)
 	attr, err := obj.Attrs(r.ctx)
 	if err != nil {
 		log.Default().Fatal(err.Error())
