@@ -3,15 +3,13 @@ package repository
 import (
 	"io"
 	"log"
-	"os"
 
 	"cloud.google.com/go/storage"
 	"google.golang.org/api/iterator"
 )
 
 func (r *Repository) GetImageList() []string {
-	bkt := r.db.CloudStorageClient.Bucket(os.Getenv("GCLOUD_BUCKET"))
-	obj := bkt.Objects(r.ctx, nil)
+	obj := r.db.CloudStorageClient.Objects(r.ctx, nil)
 
 	var blobList []string
 
@@ -29,9 +27,7 @@ func (r *Repository) GetImageList() []string {
 }
 
 func (r *Repository) GetImage(img string) ([]byte, string) {
-	bkt := r.db.CloudStorageClient.Bucket(os.Getenv("GCLOUD_BUCKET"))
-
-	obj := bkt.Object(img)
+	obj := r.db.CloudStorageClient.Object(img)
 	attr, err := obj.Attrs(r.ctx)
 	if err != nil {
 		log.Default().Fatal(err.Error())
