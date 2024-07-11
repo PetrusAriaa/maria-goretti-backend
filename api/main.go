@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
 	"context"
@@ -45,5 +45,6 @@ func main() {
 }
 
 func StartServer(w http.ResponseWriter, r *http.Request) {
+	main()
 	s.ListenAndServe()
 }
