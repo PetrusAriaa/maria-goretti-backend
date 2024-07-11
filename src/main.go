@@ -21,6 +21,8 @@ func main() {
 	ctx := context.Background()
 
 	client := db.NewDBConnections(ctx)
+	defer client.CloudStorageClient.Close()
+
 	srv := service.NewService(client, ctx)
 	c := controller.NewController(srv)
 
@@ -35,6 +37,7 @@ func main() {
 
 	log.Default().Printf("Server started on http://0.0.0.0:8080")
 	if err := s.ListenAndServe(); err != nil {
+		client.CloudStorageClient.Close()
 		panic(err.Error())
 	}
 }
