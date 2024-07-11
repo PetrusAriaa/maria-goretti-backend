@@ -15,10 +15,7 @@ import (
 var s *http.Server
 
 func main() {
-	err := godotenv.Load(".env.development")
-	if err != nil {
-		log.Default().Fatal(err.Error())
-	}
+	godotenv.Load(".env.development")
 
 	ctx := context.Background()
 
