@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"github.com/PetrusAriaa/web-margot-backend/src/db"
-	"github.com/PetrusAriaa/web-margot-backend/src/repository"
+	"github.com/PetrusAriaa/web-margot-backend/api/db"
+	"github.com/PetrusAriaa/web-margot-backend/api/repository"
 )
 
 type Service struct {

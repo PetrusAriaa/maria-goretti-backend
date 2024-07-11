@@ -7,9 +7,9 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/PetrusAriaa/web-margot-backend/src/controller"
-	"github.com/PetrusAriaa/web-margot-backend/src/db"
-	"github.com/PetrusAriaa/web-margot-backend/src/service"
+	"github.com/PetrusAriaa/web-margot-backend/api/controller"
+	"github.com/PetrusAriaa/web-margot-backend/api/db"
+	"github.com/PetrusAriaa/web-margot-backend/api/service"
 )
 
 func main() {
