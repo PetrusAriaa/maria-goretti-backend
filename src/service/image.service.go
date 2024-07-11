@@ -11,3 +11,7 @@ func (s *Service) GetImageList() *ImageListResponse {
 	res.Data = append(res.Data, obj...)
 	return &res
 }
+
+func (s *Service) GetImage(img string) ([]byte, string) {
+	return s.repository.GetImage(img)
+}

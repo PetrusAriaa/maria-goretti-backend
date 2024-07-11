@@ -30,7 +30,8 @@ func main() {
 		Addr:    "0.0.0.0:8080",
 		Handler: mux,
 	}
-	mux.HandleFunc("/images", c.ImageLists)
+	mux.HandleFunc("/assets/images", c.GetImageList)
+	mux.HandleFunc("/assets/images/{id}", c.GetImage)
 
 	log.Default().Printf("Server started on http://0.0.0.0:8080")
 	if err := s.ListenAndServe(); err != nil {
