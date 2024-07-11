@@ -2,10 +2,12 @@ package db
 
 import (
 	"context"
+	"encoding/base64"
 	"log"
 	"os"
 
 	"cloud.google.com/go/storage"
+	"google.golang.org/api/option"
 )
 
 type DBConnections struct {
@@ -14,8 +16,13 @@ type DBConnections struct {
 }
 
 func NewDBConnections(ctx context.Context) *DBConnections {
+	b64, err := base64.StdEncoding.DecodeString(os.Getenv("GOOGLE_CREDENTIALS_BASE64"))
+	if err != nil {
+		panic(err.Error())
+	}
 
-	s, err := storage.NewClient(ctx)
+	opt := option.WithCredentialsJSON(b64)
+	s, err := storage.NewClient(ctx, opt)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
