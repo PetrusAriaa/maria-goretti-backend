@@ -8,7 +8,7 @@ import (
 )
 
 func Image(w http.ResponseWriter, r *http.Request) {
-	g, err := gateway.NewGateway("images")
+	g, err := gateway.NewGateway()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Internal Server Error"))

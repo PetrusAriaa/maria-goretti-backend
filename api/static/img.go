@@ -21,7 +21,7 @@ func ImageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	g, err := gateway.NewGateway("images:get")
+	g, err := gateway.NewGateway()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Internal Server Error"))
