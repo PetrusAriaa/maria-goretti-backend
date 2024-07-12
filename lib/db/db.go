@@ -15,20 +15,23 @@ type DBConnections struct {
 	StorageBucket      *storage.BucketHandle
 }
 
-func NewDBConnections(ctx context.Context) *DBConnections {
+func NewDBConnections(ctx context.Context) (*DBConnections, error) {
 	b64, err := base64.StdEncoding.DecodeString(os.Getenv("GOOGLE_CREDENTIALS_BASE64"))
 	if err != nil {
-		panic(err.Error())
+		log.Default().Println(err.Error())
+		return nil, err
 	}
 
 	opt := option.WithCredentialsJSON(b64)
 	s, err := storage.NewClient(ctx, opt)
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Default().Println(err.Error())
+		return nil, err
 	}
+
 	bkt := s.Bucket(os.Getenv("GCLOUD_BUCKET"))
 	return &DBConnections{
 		CloudStorageClient: s,
 		StorageBucket:      bkt,
-	}
+	}, nil
 }

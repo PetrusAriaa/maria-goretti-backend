@@ -8,9 +8,8 @@ import (
 	"google.golang.org/api/iterator"
 )
 
-func (r *Repository) GetImageList() []string {
+func (r *Repository) GetImageList() ([]string, error) {
 	obj := r.db.StorageBucket.Objects(r.ctx, nil)
-
 	var blobList []string
 
 	for {
@@ -19,11 +18,11 @@ func (r *Repository) GetImageList() []string {
 			break
 		}
 		if err != nil {
-			log.Fatal(err.Error())
+			return nil, err
 		}
 		blobList = append(blobList, attr.Name)
 	}
-	return blobList
+	return blobList, nil
 }
 
 func (r *Repository) GetImage(img string) ([]byte, string) {

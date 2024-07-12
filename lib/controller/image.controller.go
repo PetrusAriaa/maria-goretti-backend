@@ -7,7 +7,11 @@ import (
 )
 
 func (c *controllerData) GetImageList(w http.ResponseWriter, r *http.Request) {
-	res := c.service.GetImageList()
+	res, err := c.service.GetImageList()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+	}
 	json.NewEncoder(w).Encode(res)
 }
 
