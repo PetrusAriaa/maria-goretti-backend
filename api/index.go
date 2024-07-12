@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func Health(w http.ResponseWriter, r *http.Request) {
+func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Header().Add("Content-Type", "application/json")
 	res := map[string]string{"status": "OK"}
