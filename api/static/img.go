@@ -2,8 +2,10 @@ package handler
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
+
+	"cloud.google.com/go/storage"
+	"github.com/PetrusAriaa/web-margot-backend/lib/gateway"
 )
 
 type ErrorMsg []string
@@ -11,16 +13,33 @@ type ErrorMsg []string
 func ImageHandler(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query().Get("fileName")
 	if q == "" {
-		_e := map[string]ErrorMsg{
+		e := map[string]ErrorMsg{
 			"errors": {"Missing required query param 'fileName'."},
 		}
 		w.WriteHeader(http.StatusBadRequest)
-		e, err := json.Marshal(_e)
-		if err != nil {
-			log.Fatalln(err.Error())
-		}
-		w.Write(e)
+		json.NewEncoder(w).Encode(e)
+		return
 	}
-	w.Header().Add("Content-Type", "application/json")
-	w.Write([]byte(q))
+
+	g, err := gateway.NewGateway("images:get")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	c, ct, err := g.Service.GetImage(q)
+	if err == storage.ErrObjectNotExist {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Not found"))
+		return
+	}
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	w.Header().Add("Content-Type", ct)
+	w.Write([]byte(c))
 }

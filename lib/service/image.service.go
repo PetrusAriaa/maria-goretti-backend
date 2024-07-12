@@ -12,6 +12,6 @@ func (s *Service) GetImageList() (*ImageListResponse, error) {
 	return &res, err
 }
 
-func (s *Service) GetImage(img string) ([]byte, string) {
+func (s *Service) GetImage(img string) ([]byte, string, error) {
 	return s.repository.GetImage(img)
 }

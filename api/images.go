@@ -8,8 +8,14 @@ import (
 )
 
 func Image(w http.ResponseWriter, r *http.Request) {
-	g := gateway.NewGateway("images")
-	res, err := g.Call()
+	g, err := gateway.NewGateway("images")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Internal Server Error"))
+		return
+	}
+
+	res, err := g.Service.GetImageList()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Internal Server Error"))

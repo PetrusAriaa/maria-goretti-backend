@@ -25,26 +25,30 @@ func (r *Repository) GetImageList() ([]string, error) {
 	return blobList, nil
 }
 
-func (r *Repository) GetImage(img string) ([]byte, string) {
+func (r *Repository) GetImage(img string) ([]byte, string, error) {
 	obj := r.db.StorageBucket.Object(img)
 	attr, err := obj.Attrs(r.ctx)
+	if err == storage.ErrObjectNotExist {
+		log.Default().Println(err.Error())
+		return nil, "", storage.ErrObjectNotExist
+	}
 	if err != nil {
-		log.Default().Fatal(err.Error())
+		log.Default().Println(err.Error())
+		return nil, "", err
 	}
 
 	reader, err := obj.NewReader(r.ctx)
-	if err == storage.ErrObjectNotExist {
-		return nil, ""
-	}
 	if err != nil {
-		log.Default().Fatal(err.Error())
+		log.Default().Println(err.Error())
+		return nil, "", err
 	}
 	defer reader.Close()
 
 	p, err := io.ReadAll(reader)
 	if err != nil {
-		log.Default().Fatal(err.Error())
+		log.Default().Println(err.Error())
+		return nil, "", err
 	}
 
-	return p, attr.ContentType
+	return p, attr.ContentType, nil
 }
